@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xerxis Palsetia - Portfolio</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js"></script>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <div class="logo">Xerxis Palsetia</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="home" class="hero">
+        <div class="shape">◆</div>
+        <div class="shape">●</div>
+        <div class="shape">▲</div>
+        <div class="hero-content">
+            <h1>Xerxis Palsetia</h1>
+            <p>Full-Stack Developer & Recently Graduated CS Student at UW-Madison</p>
+            <a href="#contact" class="cta-button">Get In Touch</a>
+        </div>
+    </section>
+
+    <section id="about">
+        <div class="container">
+            <h2 class="section-title">About Me</h2>
+            <div class="about-content">
+                <div class="about-image">
+                </div>
+                <div class="about-text">
+                    <p>I'm a full-stack developer with hands-on experience in API development, modern UI frameworks, ML, and data analysis. Graduated with a B.S in Computer Science at University of Wisconsin-Madison with a 3.6 GPA.</p>
+                    <p>I'm quick to learn new technologies and thrive in fast-paced, high-impact environments. Known for building scalable, efficient solutions with a focus on organization, detail, and teamwork.</p>
+                    <p><strong>Education:</strong> University of Wisconsin - Madison (Sept 2022 - May 2025)</p>
+                    <p><strong>Organizations:</strong> Badger Blockchain (VP of Technology), Wisconsin Racing (Formula SAE)</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="skills">
+        <div class="container">
+            <h2 class="section-title">Skills</h2>
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <div class="skill-icon">💻</div>
+                    <h3>Programming Languages</h3>
+                    <p>Java, Python, Swift, C/C++, C#, Kotlin, JavaScript, TypeScript, Rust, HTML/CSS, SQL</p>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-icon">🔧</div>
+                    <h3>Frameworks & Technologies</h3>
+                    <p>iOS, Android, Firebase, Django, Node.js, Flask, React, React Native, Spring Boot, Git, MySQL</p>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-icon">🛠️</div>
+                    <h3>Tools & Platforms</h3>
+                    <p>GitHub, Docker, Postman, VS Code, Xcode, Android Studio</p>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-icon">☁️</div>
+                    <h3>Cloud & DevOps</h3>
+                    <p>AWS, GCP, Azure, Kubernetes, Docker</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="experience">
+        <div class="container">
+            <h2 class="section-title">Experience</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>Computer Science Student</h3>
+                        <h4>University of Wisconsin - Madison (September 2022 - May 2025)</h4>
+                        <p>B.S Computer Science, GPA: 3.6 (Dean's List). VP of Technology at Badger Blockchain, member of Wisconsin Racing (Formula SAE). Coursework includes AI, Computer Graphics, Software Engineering, Mobile Development, and more.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>Engineering Intern</h3>
+                        <h4>Cequence Security (June 2023 – September 2023)</h4>
+                        <p>Implemented the Discovery Feature, enhancing resource allocation and utilization, increasing system efficiency by 30%. Developed and deployed a high-performance API module using Spring Boot and Kotlin. Achieved 80% code coverage for newly developed code, ensuring high quality and reducing production issues.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>Founder/Instructor</h3>
+                        <h4>Coding For Tomorrow (June 2020 – May 2022)</h4>
+                        <p>Founded an organization aimed at teaching younger students foundational coding skills. Developed and structured a comprehensive curriculum introducing programming concepts through Scratch, Python, and Java. Managed and taught multiple classes while assessing student performance through evaluations and hands-on projects.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects">
+        <div class="container">
+            <h2 class="section-title">Projects</h2>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-image">📈</div>
+                    <div class="project-content">
+                        <h3 class="project-title">S&P 500 Prediction Using Markov Chains</h3>
+                        <p class="project-description">Predicts daily S&P 500 changes using customizable k-order Markov Chains. Interactive Flask web app that processes historical CSV data using numpy and pandas, builds transition matrices, and outputs predictions with associated probabilities.</p>
+                        <div class="project-links">
+                            <a href="https://markovchains.uc.r.appspot.com/" class="project-link">Live Demo</a>
+                            <a href="https://github.com/xpalsetia/S-PMarkovChains/tree/main" class="project-link">GitHub</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-image">🃏</div>
+                    <div class="project-content">
+                        <h3 class="project-title">Ride The Bus - Interactive card game</h3>
+                        <p class="project-description">Web-based implementation of the popular party card game with two different modes using different card logic. Built using vanilla JavaScript, HTML, and CSS, the game offers smooth animations, a classic theme, and a clean, responsive UI.</p>
+                        <div class="project-links">
+                            <a href="https://raw.githack.com/xpalsetia/RideTheBus/refs/heads/main/index.html" class="project-link">Live Demo</a>
+                            <a href="https://github.com/xpalsetia/RideTheBus/blob/main/README.md" class="project-link">GitHub</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-image">⚽</div>
+                    <div class="project-content">
+                        <h3 class="project-title">Premier League Match Prediction</h3>
+                        <p class="project-description">Predicts EPL match outcomes using team performance metrics like goals, possession, and form. Java-based app that reads data from CSV files and calculates team strengths based on adjustable weighted metrics for flexible experimentation.</p>
+                        <div class="project-links">
+                            <a href="https://github.com/xpalsetia/PremPredictor/tree/main" class="project-link">GitHub</a>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <div class="container">
+            <h2 class="section-title">Contact</h2>
+            <div class="contact-content">
+                <p>I'm always open to discussing new opportunities and interesting projects. Let's connect!</p>
+                <div class="contact-info">
+                    <div class="contact-item">
+                      <div class="contact-icon">📧</div>
+                      <h3>Email</h3>
+                      <p>
+                        <a href="mailto:xerxis.palsetia@gmail.com">
+                          xerxis.palsetia@gmail.com
+                        </a>
+                      </p>
+                    </div>
+                    <div class="contact-item">
+                      <div class="contact-icon">💼</div>
+                      <h3>LinkedIn</h3>
+                      <p>
+                        <a href="https://linkedin.com/in/xpalsetia" target="_blank" rel="noopener">
+                          linkedin.com/in/xpalsetia
+                        </a>
+                      </p>
+                    </div>
+                    <div class="contact-item">
+                      <div class="contact-icon">💻</div>
+                      <h3>GitHub</h3>
+                      <p>
+                        <a href="https://github.com/xpalsetia" target="_blank" rel="noopener">
+                          github.com/xpalsetia
+                        </a>
+                      </p>
+                    </div>
+                  </div>                  
+            </div>
+        </div>
+    </section>
+
+    <!-- Page Navigation Tabs -->
+    <div class="page-tabs">
+        <a href="index.html" class="page-tab active" data-page="portfolio" title="Portfolio">🏠</a>
+        <a href="gallery.html" class="page-tab" data-page="gallery" title="Gallery">📸</a>
+        <a href="blog.html" class="page-tab" data-page="blog" title="Blog">📝</a>
+        <a href="resume.html" class="page-tab" data-page="resume" title="Resume">📄</a>
+        
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="social-links">
+                <a href="https://linkedin.com/in/xpalsetia" class="social-link" title="LinkedIn">💼</a>
+                <a href="https://github.com/xpalsetia" class="social-link" title="GitHub">💻</a>
+                <a href="mailto:xerxis.palsetia@gmail.com" class="social-link" title="Email">📧</a>
+            </div>
+            <p>&copy; 2025 Xerxis Palsetia. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
