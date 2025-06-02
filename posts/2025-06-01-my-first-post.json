@@ -1,0 +1,13 @@
+{
+    "id": "2025-06-01-my-first-post",
+    "title": "Testing",
+    "date": "2025-06-01T10:30:00Z",
+    "categories": ["Announcements", "Personal"],
+    "thumbnail": "https://t3.ftcdn.net/jpg/05/06/30/80/360_F_506308027_CDz21VQ7ed6seYBiFElgoTnWdc5I2plg.jpg",
+    "images": [
+      "https://example.com/images/cover.jpg",
+      "https://example.com/images/diagram.png"
+    ],
+    "content": "<p>Test Post! Here’s some <strong>HTML‐formatted</strong> text.</p><p>You can also embed images:</p><img src=\"https://cdn.sanity.io/images/599r6htc/regionalized/b438311b38e267075cc62a3ec530ff120d79604e-2880x1440.png?w=2880&h=1440&q=75&fit=max&auto=format\" alt=\"diagram\">"
+  }
+  

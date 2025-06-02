@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Blog Post Creator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 2rem;
+      background-color: #f9f9f9;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    form {
+      max-width: 800px;
+      margin: 0 auto;
+      background-color: #fff;
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    label {
+      display: block;
+      margin-top: 1rem;
+      font-weight: bold;
+    }
+    input[type="text"],
+    input[type="date"],
+    input[type="time"],
+    textarea {
+      width: 100%;
+      padding: 0.5rem;
+      margin-top: 0.25rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+      font-size: 1rem;
+    }
+    #editor-container {
+      margin-top: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .toolbar {
+      background-color: #eee;
+      padding: 0.5rem;
+      border-bottom: 1px solid #ccc;
+      display: flex;
+      gap: 0.5rem;
+    }
+    .toolbar button {
+      padding: 0.3rem 0.6rem;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    .toolbar button:hover {
+      background-color: #ddd;
+    }
+    #editor {
+      min-height: 250px;
+      padding: 0.5rem;
+      outline: none;
+    }
+    #image-list {
+      margin-top: 0.5rem;
+      list-style: none;
+      padding-left: 0;
+    }
+    #image-list li {
+      font-size: 0.9rem;
+      margin-top: 0.25rem;
+    }
+    #image-list li a {
+      color: #0066cc;
+      text-decoration: none;
+    }
+    #image-list li a:hover {
+      text-decoration: underline;
+    }
+    button#add-image-btn,
+    button#generate-json {
+      margin-top: 1rem;
+      padding: 0.6rem 1.2rem;
+      font-size: 1rem;
+      background-color: #0066cc;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button#add-image-btn:hover,
+    button#generate-json:hover {
+      background-color: #005bb5;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Create a New Blog Post</h1>
+  <form id="post-form" onsubmit="return false;">
+    <!-- Title -->
+    <label for="post-title">Title</label>
+    <input type="text" id="post-title" placeholder="Your post title" required />
+
+    <!-- Date & Time -->
+    <label for="post-date">Date</label>
+    <input type="date" id="post-date" required />
+    <label for="post-time">Time</label>
+    <input type="time" id="post-time" required />
+
+    <!-- Categories (comma-separated) -->
+    <label for="post-categories">Categories (comma-separated)</label>
+    <input type="text" id="post-categories" placeholder="e.g., Announcements, Personal" />
+
+    <!-- Thumbnail Image URL -->
+    <label for="post-thumbnail">Thumbnail Image URL</label>
+    <input type="text" id="post-thumbnail" placeholder="https://example.com/thumbnail.jpg" />
+
+    <!-- Image URL input -->
+    <label for="image-url">Add Image by URL</label>
+    <div style="display: flex; gap: 0.5rem; align-items: center;">
+      <input type="text" id="image-url" placeholder="https://example.com/image.jpg" />
+      <button id="add-image-btn">Add Image</button>
+    </div>
+    <ul id="image-list"></ul>
+
+    <!-- Content editor -->
+    <label>Content</label>
+    <div id="editor-container">
+      <div class="toolbar">
+        <button type="button" data-cmd="bold"><strong>B</strong></button>
+        <button type="button" data-cmd="italic"><em>I</em></button>
+        <button type="button" data-cmd="underline"><u>U</u></button>
+        <button type="button" data-cmd="insertOrderedList">OL</button>
+        <button type="button" data-cmd="insertUnorderedList">UL</button>
+        <button type="button" data-cmd="createLink">Link</button>
+        <button type="button" data-cmd="insertImage">Image</button>
+      </div>
+      <div id="editor" contenteditable="true"></div>
+    </div>
+
+    <!-- Generate JSON -->
+    <button id="generate-json">Download JSON</button>
+  </form>
+
+  <script>
+    // Keep track of image URLs
+    const images = [];
+
+    document.getElementById("add-image-btn").addEventListener("click", (e) => {
+      e.preventDefault();
+      const urlInput = document.getElementById("image-url");
+      const url = urlInput.value.trim();
+      if (!url) return;
+
+      // Add to images array
+      images.push(url);
+
+      // Insert <img> tag into the editor
+      document.getElementById("editor").focus();
+      document.execCommand("insertImage", false, url);
+
+      // Append to image-list display
+      const li = document.createElement("li");
+      const a = document.createElement("a");
+      a.href = url;
+      a.target = "_blank";
+      a.textContent = url;
+      li.appendChild(a);
+      document.getElementById("image-list").appendChild(li);
+
+      urlInput.value = "";
+    });
+
+    // Toolbar functionality using execCommand
+    document.querySelectorAll(".toolbar button").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const cmd = btn.getAttribute("data-cmd");
+        if (cmd === "createLink") {
+          const link = prompt("Enter URL for link:", "https://");
+          if (link) document.execCommand(cmd, false, link);
+        } else if (cmd === "insertImage") {
+          const img = prompt("Enter image URL:", "https://");
+          if (img) {
+            images.push(img);
+            document.execCommand(cmd, false, img);
+            // Also add to image-list
+            const li = document.createElement("li");
+            const a = document.createElement("a");
+            a.href = img;
+            a.target = "_blank";
+            a.textContent = img;
+            li.appendChild(a);
+            document.getElementById("image-list").appendChild(li);
+          }
+        } else {
+          document.execCommand(cmd, false, null);
+        }
+      });
+    });
+
+    // Generate and download JSON
+    document.getElementById("generate-json").addEventListener("click", () => {
+      const title = document.getElementById("post-title").value.trim();
+      const dateVal = document.getElementById("post-date").value;
+      const timeVal = document.getElementById("post-time").value;
+      if (!title || !dateVal || !timeVal) {
+        alert("Title, date, and time are required.");
+        return;
+      }
+
+      // Combine date and time into ISO string
+      const isoTimestamp = new Date(dateVal + "T" + timeVal).toISOString();
+
+      // Generate slug: date + title, lowercased, non-alphanumeric → hyphens
+      const slugBase = title.trim().toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "");
+      const slug = dateVal + "-" + slugBase;
+
+      // Categories: split by comma, trim whitespace, filter out empty
+      const rawCats = document.getElementById("post-categories").value;
+      const categories = rawCats
+        .split(",")
+        .map(s => s.trim())
+        .filter(s => s.length > 0);
+
+      // Thumbnail URL
+      const thumbnail = document.getElementById("post-thumbnail").value.trim();
+
+      // Get HTML content from editor
+      const contentHtml = document.getElementById("editor").innerHTML.trim();
+
+      // Build JSON object
+      const postObj = {
+        id: slug,
+        title: title,
+        date: isoTimestamp,
+        categories: categories,
+        thumbnail: thumbnail || null,
+        images: images,
+        content: contentHtml
+      };
+
+      // Convert to JSON string
+      const jsonString = JSON.stringify(postObj, null, 2);
+
+      // Create and download link
+      const blob = new Blob([jsonString], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = slug + ".json";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    });
+  </script>
+</body>
+</html>

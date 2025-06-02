@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blog Post</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <nav class="container">
+      <div class="logo"><a href="blog.html">← Back to Blog</a></div>
+    </nav>
+  </header>
+
+  <main class="container" id="post-container">
+    <!-- JS will inject post from json -->
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="social-links">
+        <a href="https://linkedin.com/in/xpalsetia" class="social-link" title="LinkedIn">💼</a>
+        <a href="https://github.com/xpalsetia" class="social-link" title="GitHub">💻</a>
+        <a href="mailto:xerxis.palsetia@gmail.com" class="social-link" title="Email">📧</a>
+      </div>
+      <p>&copy; 2025 Xerxis Palsetia. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    (async () => {
+      const params = new URLSearchParams(window.location.search);
+      const postId = params.get("id");
+      const container = document.getElementById("post-container");
+
+      if (!postId) {
+        container.innerHTML = "<p>Invalid post ID.</p>";
+        return;
+      }
+
+      try {
+        const res = await fetch(`posts/${encodeURIComponent(postId)}.json`);
+        if (!res.ok) throw new Error("Not found");
+        const post = await res.json();
+
+        // Title
+        const h1 = document.createElement("h1");
+        h1.textContent = post.title;
+        h1.className = "post-single-title";
+
+        // Date
+        const time = document.createElement("time");
+        time.dateTime = post.date;
+        time.textContent = new Date(post.date).toLocaleDateString("en-US", {
+          year: "numeric", month: "long", day: "numeric"
+        });
+        time.className = "post-single-date";
+
+        container.appendChild(h1);
+        container.appendChild(time);
+
+        // Content (raw HTML) - img will be displayed where they are
+        const contentDiv = document.createElement("div");
+        contentDiv.className = "post-single-content";
+        contentDiv.innerHTML = post.content;
+        container.appendChild(contentDiv);
+
+        //Categories. Generate from json files so it'll be dynamic
+        if (Array.isArray(post.categories) && post.categories.length > 0) {
+          const catEl = document.createElement("p");
+          catEl.className = "post-single-categories";
+          catEl.textContent = "Categories: " + post.categories.join(", ");
+          container.appendChild(catEl);
+        }
+      } catch (err) {
+        container.innerHTML = "<p>Could not load that post.</p>";
+        console.error(err);
+      }
+    })();
+  </script>
+</body>
+</html>

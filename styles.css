@@ -43,6 +43,16 @@ nav {
     color: #667eea;
 }
 
+.logo a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.logo a:hover {
+    color: #5a67d8;
+}
+
 .nav-links {
     display: flex;
     list-style: none;
@@ -134,7 +144,7 @@ nav {
 /* Hero Section */
 .hero {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
-    height: 100vh;
+    height: 60vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -142,6 +152,7 @@ nav {
     color: white;
     position: relative;
     overflow: hidden;
+    margin-top: 80px; /* Account for fixed header */
 }
 
 .hero-content {
@@ -155,6 +166,13 @@ nav {
     font-weight: 700;
     margin-bottom: 1rem;
     text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.hero h3 {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+    font-weight: 400;
 }
 
 .hero p {
@@ -188,6 +206,7 @@ nav {
     position: absolute;
     opacity: 0.1;
     animation: float 6s ease-in-out infinite;
+    font-size: 4rem;
 }
 
 .shape:nth-child(1) {
@@ -208,14 +227,243 @@ nav {
     animation-delay: 4s;
 }
 
-/* Sections */
+/* Blog-specific sections */
 section {
-    padding: 5rem 0;
+    padding: 3rem 0;
     background: white;
 }
 
 section:nth-child(even) {
     background: #f8f9fa;
+}
+
+/* Filter Section */
+#filters {
+    background: #f5f5f5;
+    margin-top: 10px;
+    padding: 3rem 2rem;
+    border-radius: 25px;
+    margin-left: 0;
+    margin-right: 0;
+    width: 100%;
+    max-width: none;
+}
+
+#filters h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+#category-checkboxes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+}
+
+#category-checkboxes label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: #f8f9fa;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+#category-checkboxes label:hover {
+    background: #e9ecef;
+    transform: translateY(-1px);
+}
+
+#category-checkboxes input[type="checkbox"] {
+    accent-color: #667eea;
+    transform: scale(1.2);
+}
+
+/* Posts List Section */
+#posts-list {
+    background: #f5f5f5;
+    margin-top: 100px;
+    padding: 3rem 2rem;
+    min-height: calc(100vh - 200px);
+    border-radius: 25px;
+    margin-left: 0;
+    margin-right: 0;
+    width: 100%;
+    max-width: none;
+}
+
+/* Post Preview Cards */
+.post-preview {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.post-preview:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+.post-thumb {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+}
+
+.post-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #333;
+    text-decoration: none;
+    margin: 1.5rem 1.5rem 0.5rem;
+    transition: color 0.3s ease;
+}
+
+.post-title:hover {
+    color: #667eea;
+}
+
+.post-date {
+    color: #666;
+    font-size: 0.9rem;
+    margin: 0 1.5rem;
+    opacity: 0.8;
+}
+
+.post-excerpt {
+    color: #666;
+    margin: 1rem 1.5rem 1.5rem;
+    line-height: 1.6;
+    flex-grow: 1;
+}
+
+/* Single Post Styles */
+main#post-container {
+    background: #f5f5f5;
+    margin-top: 100px;
+    padding: 3rem 2rem;
+    min-height: calc(100vh - 200px);
+    border-radius: 25px;
+    margin-left: 0;
+    margin-right: 0;
+    width: 100%;
+    max-width: none;
+}
+
+/* Make images inside the post scale down responsively */
+main#post-container img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+
+.post-single-title {
+    font-size: 3rem;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+}
+
+.post-single-date {
+    display: block;
+    color: #666;
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 2px solid #e9ecef;
+}
+
+.post-single-image {
+    width: 100%;
+    max-width: 800px;
+    height: auto;
+    border-radius: 10px;
+    margin: 2rem 0;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.post-single-content {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #444;
+    max-width: 800px;
+}
+
+.post-single-content h1,
+.post-single-content h2,
+.post-single-content h3 {
+    color: #333;
+    margin: 2rem 0 1rem;
+}
+
+.post-single-content h1 {
+    font-size: 2.5rem;
+}
+
+.post-single-content h2 {
+    font-size: 2rem;
+}
+
+.post-single-content h3 {
+    font-size: 1.5rem;
+}
+
+.post-single-content p {
+    margin-bottom: 1.5rem;
+}
+
+.post-single-content ul,
+.post-single-content ol {
+    margin: 1.5rem 0;
+    padding-left: 2rem;
+}
+
+.post-single-content li {
+    margin-bottom: 0.5rem;
+}
+
+.post-single-content blockquote {
+    border-left: 4px solid #667eea;
+    padding-left: 2rem;
+    margin: 2rem 0;
+    font-style: italic;
+    color: #666;
+}
+
+.post-single-content code {
+    background: #f8f9fa;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-family: 'Monaco', 'Menlo', monospace;
+    font-size: 0.9rem;
+}
+
+.post-single-content pre {
+    background: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 2rem 0;
+}
+
+.post-single-categories {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid #e9ecef;
+    color: #666;
+    font-style: italic;
 }
 
 .section-title {
@@ -520,10 +768,16 @@ footer {
         display: none;
     }
 
+    .hero {
+        height: 50vh;
+        margin-top: 70px;
+    }
+
     .hero h1 {
         font-size: 2.5rem;
     }
 
+    .hero h3,
     .hero p {
         font-size: 1.2rem;
     }
@@ -553,5 +807,29 @@ footer {
 
     .section-title {
         font-size: 2rem;
+    }
+
+    .post-single-title {
+        font-size: 2rem;
+    }
+
+    .post-single-content {
+        font-size: 1rem;
+    }
+
+    #posts-list {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    #category-checkboxes {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    main#post-container {
+        margin-top: 80px;
+        padding: 2rem 1rem;
+        border-radius: 20px;
     }
 }
