@@ -166,6 +166,14 @@
 
         <img id="lightbox-img" src="" alt="" style="max-width: 90%; max-height: 90%;">
       </div>
+      
+      <!-- Page Navigation Tabs -->
+      <div class="page-tabs">
+          <a href="index.html" class="page-tab" data-page="portfolio" title="Portfolio">🏠</a>
+          <a href="gallery.html" class="page-tab active" data-page="gallery" title="Gallery">📸</a>
+          <a href="blog.html" class="page-tab" data-page="blog" title="Blog">📝</a>
+          <a href="resume.html" class="page-tab" data-page="resume" title="Resume">📄</a>
+      </div>
 
       <script>
         // Get modal elements
@@ -174,7 +182,9 @@
         const closeBtn = document.getElementById('lightbox-close');
         const prevBtn = document.getElementById('lightbox-prev');
         const nextBtn = document.getElementById('lightbox-next');
+        const pageTabsContainer = document.querySelector('.page-tabs');
 
+        
         // Store all thumbnails in an array
         const thumbnails = Array.from(document.querySelectorAll('.thumb'));
         let currentIndex = 0;
@@ -185,6 +195,7 @@
             currentIndex = index;
             showImage(currentIndex);
             lightbox.style.display = 'flex';
+            if (pageTabsContainer) pageTabsContainer.style.display = 'none'; //hide tabs
           });
         });
 
@@ -197,6 +208,7 @@
         closeBtn.addEventListener('click', () => {
           lightbox.style.display = 'none';
           lightboxImg.src = '';
+          if (pageTabsContainer) pageTabsContainer.style.display = 'flex'; //show tabs
         });
 
         // Close modal when clicking outside the image
@@ -204,6 +216,8 @@
           if (e.target === lightbox) {
             lightbox.style.display = 'none';
             lightboxImg.src = '';
+            if (pageTabsContainer) pageTabsContainer.style.display = 'flex'; //show tabs
+
           }
         });
 
@@ -232,19 +246,12 @@
             if (e.key === 'Escape') {
               lightbox.style.display = 'none';
               lightboxImg.src = '';
+              if (pageTabsContainer) pageTabsContainer.style.display = 'flex'; //show tabs
+
             }
           }
         });
       </script>
-
-
-    <!-- Page Navigation Tabs -->
-    <div class="page-tabs">
-        <a href="index.html" class="page-tab" data-page="portfolio" title="Portfolio">🏠</a>
-        <a href="gallery.html" class="page-tab active" data-page="gallery" title="Gallery">📸</a>
-        <a href="blog.html" class="page-tab" data-page="blog" title="Blog">📝</a>
-        <a href="resume.html" class="page-tab" data-page="resume" title="Resume">📄</a>
-    </div>
 
     <footer>
         <div class="container">
