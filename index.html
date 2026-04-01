@@ -8,13 +8,17 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon_io/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon_io/favicon-16x16.png">
     <link rel="manifest" href="/favicon_io/site.webmanifest">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
 </head>
 <body>
+    <div id="progress-bar"></div>
+
     <header>
         <nav class="container">
-            <div class="logo">Xerxis Palsetia</div>
+            <div class="logo">XP</div>
             <ul class="nav-links">
                 <li><a href="#home">Home</a></li>
                 <li><a href="#about">About</a></li>
@@ -26,36 +30,80 @@
         </nav>
     </header>
 
+    <!-- ===================== HERO ===================== -->
     <section id="home" class="hero">
-        <div class="shape">◆</div>
-        <div class="shape">●</div>
-        <div class="shape">▲</div>
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
         <div class="hero-content">
-            <h1>Xerxis Palsetia</h1>
-            <p>SWE @ Supermicro & Computer Science Alumni of UW-Madison</p>
-            <a href="#contact" class="cta-button">Get In Touch</a>
+            <div class="hero-eyebrow">SWE @ Supermicro &bull; CS Alumni UW-Madison</div>
+            <h1>Xerxis<br>Palsetia</h1>
+            <div class="hero-tw-line">
+                <span class="hero-tw-prefix">I'm a&nbsp;</span>
+                <span class="tw-word" id="tw-word"></span><span class="tw-cursor">|</span>
+            </div>
+            <p>Full-stack developer focused on scalable systems, ML, and high-performance computing.</p>
+            <div class="hero-btns">
+                <a href="#contact" class="btn-primary">Get In Touch &rarr;</a>
+                <a href="#projects" class="btn-secondary">View My Work</a>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+            </svg>
+            Scroll
         </div>
     </section>
 
+    <!-- ===================== ABOUT ===================== -->
     <section id="about">
         <div class="container">
             <h2 class="section-title">About Me</h2>
-            <div class="about-content">
-                <div class="about-image">
+            <p class="section-subtitle">Full-stack developer. Builder. Always learning.</p>
+
+            <div class="bento-grid">
+                <!-- Profile photo -->
+                <div class="bento-card bento-photo">
+                    <img src="pfp.jpg" alt="Xerxis Palsetia" class="pfp-img">
                 </div>
-                <div class="about-text">
-                    <p>I'm a full-stack developer with hands-on experience in API development, modern UI frameworks, ML, and data analysis. Graduated with a B.S in Computer Science at University of Wisconsin-Madison with a 3.6 GPA.</p>
-                    <p>I'm quick to learn new technologies and thrive in fast-paced, high-impact environments. Known for building scalable, efficient solutions with a focus on organization, detail, and teamwork.</p>
-                    <p><strong>Education:</strong> University of Wisconsin - Madison (Sept 2022 - May 2025)</p>
-                    <p><strong>Organizations:</strong> Badger Blockchain (VP of Technology), Wisconsin Racing (Formula SAE)</p>
+                <!-- Bio -->
+                <div class="bento-card bento-bio">
+                    <h3>Hey, I'm Xerxis</h3>
+                    <p>I'm a full-stack developer with hands-on experience in API development, modern UI frameworks, ML, and data analysis. Graduated with a B.S in Computer Science at UW-Madison with a 3.6 GPA.</p>
+                    <p>Quick to learn new technologies, thriving in fast-paced, high-impact environments. Known for building scalable, efficient solutions with a focus on organization, detail, and teamwork.</p>
+                    <p style="margin-top:0.6rem;font-size:0.85rem;"><strong style="color:var(--text);">Organizations:</strong> <span style="color:var(--text-2);">Badger Blockchain (VP of Technology) &bull; Wisconsin Racing (Formula SAE)</span></p>
                 </div>
+                <!-- Stats -->
+                <div class="bento-card bento-stat">
+                    <div class="stat-number">6+</div>
+                    <div class="stat-label">Years Coding</div>
+                </div>
+                <!-- Education -->
+                <div class="bento-card bento-edu">
+                    <h4>University of Wisconsin &ndash; Madison</h4>
+                    <p>B.S. Computer Science &bull; GPA 3.6 &bull; Dean's List</p>
+                    <span class="edu-badge">Sept 2022 &ndash; May 2025</span>
+                </div>
+            </div>
+
+            <!-- Terminal bio -->
+            <div class="terminal-window">
+                <div class="terminal-bar">
+                    <span class="t-dot t-red"></span>
+                    <span class="t-dot t-yellow"></span>
+                    <span class="t-dot t-green"></span>
+                    <span class="t-title">xerxis@portfolio ~ </span>
+                </div>
+                <div class="terminal-body" id="terminal-body"></div>
             </div>
         </div>
     </section>
 
+    <!-- ===================== SKILLS ===================== -->
     <section id="skills">
         <div class="container">
             <h2 class="section-title">Skills</h2>
+            <p class="section-subtitle">Languages, frameworks, and tools I work with daily.</p>
             <div class="skills-grid">
                 <div class="skill-card">
                     <div class="skill-icon">💻</div>
@@ -64,132 +112,179 @@
                 </div>
                 <div class="skill-card">
                     <div class="skill-icon">🔧</div>
-                    <h3>Frameworks & Technologies</h3>
+                    <h3>Frameworks &amp; Technologies</h3>
                     <p>iOS, Android, Firebase, Django, Node.js, Flask, React, React Native, Spring Boot, Git, MySQL</p>
                 </div>
                 <div class="skill-card">
                     <div class="skill-icon">🛠️</div>
-                    <h3>Tools & Platforms</h3>
+                    <h3>Tools &amp; Platforms</h3>
                     <p>GitHub, Docker, Postman, VS Code, Xcode, Android Studio</p>
                 </div>
                 <div class="skill-card">
                     <div class="skill-icon">☁️</div>
-                    <h3>Cloud & DevOps</h3>
+                    <h3>Cloud &amp; DevOps</h3>
                     <p>AWS, GCP, Azure, Kubernetes, Docker</p>
                 </div>
             </div>
         </div>
+
+        <!-- Animated marquee -->
+        <div class="marquee-section">
+            <div class="marquee-row row-1">
+                <span class="skill-tag">Java</span><span class="skill-tag">Python</span><span class="skill-tag">Swift</span><span class="skill-tag">C++</span><span class="skill-tag">C#</span><span class="skill-tag">Kotlin</span><span class="skill-tag">JavaScript</span><span class="skill-tag">TypeScript</span><span class="skill-tag">Rust</span><span class="skill-tag">HTML/CSS</span><span class="skill-tag">SQL</span>
+                <span class="skill-tag">Java</span><span class="skill-tag">Python</span><span class="skill-tag">Swift</span><span class="skill-tag">C++</span><span class="skill-tag">C#</span><span class="skill-tag">Kotlin</span><span class="skill-tag">JavaScript</span><span class="skill-tag">TypeScript</span><span class="skill-tag">Rust</span><span class="skill-tag">HTML/CSS</span><span class="skill-tag">SQL</span>
+            </div>
+            <div class="marquee-row row-2">
+                <span class="skill-tag">React</span><span class="skill-tag">React Native</span><span class="skill-tag">Node.js</span><span class="skill-tag">Flask</span><span class="skill-tag">Django</span><span class="skill-tag">Spring Boot</span><span class="skill-tag">Firebase</span><span class="skill-tag">iOS</span><span class="skill-tag">Android</span><span class="skill-tag">MySQL</span><span class="skill-tag">Git</span>
+                <span class="skill-tag">React</span><span class="skill-tag">React Native</span><span class="skill-tag">Node.js</span><span class="skill-tag">Flask</span><span class="skill-tag">Django</span><span class="skill-tag">Spring Boot</span><span class="skill-tag">Firebase</span><span class="skill-tag">iOS</span><span class="skill-tag">Android</span><span class="skill-tag">MySQL</span><span class="skill-tag">Git</span>
+            </div>
+            <div class="marquee-row row-3">
+                <span class="skill-tag">AWS</span><span class="skill-tag">GCP</span><span class="skill-tag">Azure</span><span class="skill-tag">Docker</span><span class="skill-tag">Kubernetes</span><span class="skill-tag">GitHub</span><span class="skill-tag">Postman</span><span class="skill-tag">VS Code</span><span class="skill-tag">Xcode</span><span class="skill-tag">Android Studio</span>
+                <span class="skill-tag">AWS</span><span class="skill-tag">GCP</span><span class="skill-tag">Azure</span><span class="skill-tag">Docker</span><span class="skill-tag">Kubernetes</span><span class="skill-tag">GitHub</span><span class="skill-tag">Postman</span><span class="skill-tag">VS Code</span><span class="skill-tag">Xcode</span><span class="skill-tag">Android Studio</span>
+            </div>
+        </div>
     </section>
 
+    <!-- ===================== EXPERIENCE ===================== -->
     <section id="experience">
         <div class="container">
             <h2 class="section-title">Experience</h2>
+            <p class="section-subtitle">Where I've worked and what I've built.</p>
             <div class="timeline">
                 <div class="timeline-item">
                     <div class="timeline-content">
                         <h3>Software Engineer</h3>
-                        <h4>Supermicro (August 2025- Present)</h4>
-                        <p>Software Engineer on the Rack Team at Supermicro, developing AI and high-performance computing solutions, optimizing system integration, and supporting large-scale deployment for enterprise clients.</p>
+                        <h4>Supermicro &mdash; Aug 2025 &ndash; Present</h4>
+                        <p>Software Engineer on the Rack Team, developing AI and high-performance computing solutions, optimizing system integration, and supporting large-scale deployment for enterprise clients.</p>
                     </div>
                 </div>
                 <div class="timeline-item">
                     <div class="timeline-content">
                         <h3>Computer Science Student</h3>
-                        <h4>University of Wisconsin - Madison (September 2022 - May 2025)</h4>
+                        <h4>University of Wisconsin &ndash; Madison &mdash; Sept 2022 &ndash; May 2025</h4>
                         <p>B.S Computer Science, GPA: 3.6 (Dean's List). VP of Technology at Badger Blockchain, member of Wisconsin Racing (Formula SAE). Coursework includes AI, Computer Graphics, Software Engineering, Mobile Development, and more.</p>
                     </div>
                 </div>
                 <div class="timeline-item">
                     <div class="timeline-content">
                         <h3>Engineering Intern</h3>
-                        <h4>Cequence Security (June 2023 – September 2023)</h4>
-                        <p>Implemented the Discovery Feature, enhancing resource allocation and utilization, increasing system efficiency by 30%. Developed and deployed a high-performance API module using Spring Boot and Kotlin. Achieved 80% code coverage for newly developed code, ensuring high quality and reducing production issues.</p>
+                        <h4>Cequence Security &mdash; Jun 2023 &ndash; Sep 2023</h4>
+                        <p>Implemented the Discovery Feature, increasing system efficiency by 30%. Developed a high-performance API module using Spring Boot and Kotlin. Achieved 80% code coverage for newly developed code.</p>
                     </div>
                 </div>
                 <div class="timeline-item">
                     <div class="timeline-content">
-                        <h3>Founder/Instructor</h3>
-                        <h4>Coding For Tomorrow (June 2020 – May 2022)</h4>
-                        <p>Founded an organization aimed at teaching younger students foundational coding skills. Developed and structured a comprehensive curriculum introducing programming concepts through Scratch, Python, and Java. Managed and taught multiple classes while assessing student performance through evaluations and hands-on projects.</p>
+                        <h3>Founder / Instructor</h3>
+                        <h4>Coding For Tomorrow &mdash; Jun 2020 &ndash; May 2022</h4>
+                        <p>Founded an organization teaching younger students foundational coding skills through Scratch, Python, and Java. Managed multiple classes and assessed student performance through hands-on projects.</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- ===================== PROJECTS ===================== -->
     <section id="projects">
         <div class="container">
             <h2 class="section-title">Projects</h2>
+            <p class="section-subtitle">Things I've built &mdash; from ML models to card games.</p>
             <div class="projects-grid">
-                <div class="project-card">
+
+                <div class="project-card" data-tilt>
+                    <div class="project-card-glow"></div>
                     <div class="project-image">📈</div>
                     <div class="project-content">
-                        <h3 class="project-title">S&P 500 Prediction Using Markov Chains</h3>
-                        <p class="project-description">Predicts daily S&P 500 changes using customizable k-order Markov Chains. Interactive Flask web app that processes historical CSV data using numpy and pandas, builds transition matrices, and outputs predictions with associated probabilities.</p>
+                        <h3 class="project-title">S&amp;P 500 Prediction Using Markov Chains</h3>
+                        <p class="project-description">Predicts daily S&amp;P 500 changes using customizable k-order Markov Chains. Interactive Flask web app processing historical CSV data with numpy and pandas.</p>
+                        <div class="project-tech-tags">
+                            <span class="project-tech-tag">Python</span>
+                            <span class="project-tech-tag">Flask</span>
+                            <span class="project-tech-tag">NumPy</span>
+                            <span class="project-tech-tag">Pandas</span>
+                            <span class="project-tech-tag">GCP</span>
+                        </div>
                         <div class="project-links">
                             <a href="https://markovchains.uc.r.appspot.com/" class="project-link">Live Demo</a>
-                            <a href="https://github.com/xpalsetia/S-PMarkovChains/tree/main" class="project-link">GitHub</a>
+                            <a href="https://github.com/xpalsetia/S-PMarkovChains/tree/main" class="project-link outline">GitHub</a>
                         </div>
                     </div>
                 </div>
-                <div class="project-card">
+
+                <div class="project-card" data-tilt>
+                    <div class="project-card-glow"></div>
                     <div class="project-image">🃏</div>
                     <div class="project-content">
-                        <h3 class="project-title">Ride The Bus - Interactive card game</h3>
-                        <p class="project-description">Web-based implementation of the popular party card game with two different modes using different card logic. Built using vanilla JavaScript, HTML, and CSS, the game offers smooth animations, a classic theme, and a clean, responsive UI.</p>
+                        <h3 class="project-title">Ride The Bus &ndash; Interactive Card Game</h3>
+                        <p class="project-description">Web-based party card game with two modes and smooth animations. Built with vanilla JavaScript, HTML, and CSS with a clean, responsive UI.</p>
+                        <div class="project-tech-tags">
+                            <span class="project-tech-tag">JavaScript</span>
+                            <span class="project-tech-tag">HTML</span>
+                            <span class="project-tech-tag">CSS</span>
+                        </div>
                         <div class="project-links">
                             <a href="https://raw.githack.com/xpalsetia/RideTheBus/refs/heads/main/index.html" class="project-link">Live Demo</a>
-                            <a href="https://github.com/xpalsetia/RideTheBus/blob/main/README.md" class="project-link">GitHub</a>
+                            <a href="https://github.com/xpalsetia/RideTheBus/blob/main/README.md" class="project-link outline">GitHub</a>
                         </div>
                     </div>
                 </div>
-                <div class="project-card">
+
+                <div class="project-card" data-tilt>
+                    <div class="project-card-glow"></div>
+                    <div class="project-image">🖥️</div>
+                    <div class="project-content">
+                        <h3 class="project-title">UniGPU</h3>
+                        <p class="project-description">Python-based local GPU orchestration service that enables running computational jobs across both NVIDIA and AMD GPUs.</p>
+                        <div class="project-tech-tags">
+                            <span class="project-tech-tag">Python</span>
+                            <span class="project-tech-tag">Rust</span>
+                            <span class="project-tech-tag">Cuda</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="project-card" data-tilt>
+                    <div class="project-card-glow"></div>
                     <div class="project-image">⚽</div>
                     <div class="project-content">
                         <h3 class="project-title">Premier League Match Prediction</h3>
-                        <p class="project-description">Predicts EPL match outcomes using team performance metrics like goals, possession, and form. Java-based app that reads data from CSV files and calculates team strengths based on adjustable weighted metrics for flexible experimentation.</p>
+                        <p class="project-description">Predicts EPL match outcomes using team performance metrics like goals, possession, and form. Java-based app reading from CSV files with adjustable weighted metrics.</p>
+                        <div class="project-tech-tags">
+                            <span class="project-tech-tag">Java</span>
+                            <span class="project-tech-tag">ML</span>
+                            <span class="project-tech-tag">CSV</span>
+                        </div>
                         <div class="project-links">
-                            <a href="https://github.com/xpalsetia/PremPredictor/tree/main" class="project-link">GitHub</a>
+                            <a href="https://github.com/xpalsetia/PremPredictor/tree/main" class="project-link outline">GitHub</a>
                         </div>
                     </div>
+                </div>
             </div>
         </div>
     </section>
 
+    <!-- ===================== CONTACT ===================== -->
     <section id="contact">
         <div class="container">
             <h2 class="section-title">Contact</h2>
             <div class="contact-content">
                 <p>I'm always open to discussing new opportunities and interesting projects. Let's connect!</p>
                 <div class="contact-info">
-                    <div class="contact-item">
-                      <div class="contact-icon">📧</div>
-                      <h3>Email</h3>
-                      <p>
-                        <a href="mailto:xerxis.palsetia@gmail.com">
-                          xerxis.palsetia@gmail.com
-                        </a>
-                      </p>
-                    </div>
-                    <div class="contact-item">
-                      <div class="contact-icon">💼</div>
-                      <h3>LinkedIn</h3>
-                      <p>
-                        <a href="https://linkedin.com/in/xpalsetia" target="_blank" rel="noopener">
-                          linkedin.com/in/xpalsetia
-                        </a>
-                      </p>
-                    </div>
-                    <div class="contact-item">
-                      <div class="contact-icon">💻</div>
-                      <h3>GitHub</h3>
-                      <p>
-                        <a href="https://github.com/xpalsetia" target="_blank" rel="noopener">
-                          github.com/xpalsetia
-                        </a>
-                      </p>
-                    </div>
-                  </div>                  
+                    <a href="mailto:xerxis.palsetia@gmail.com" class="contact-item">
+                        <div class="contact-icon">📧</div>
+                        <h3>Email</h3>
+                        <p>xerxis.palsetia@gmail.com</p>
+                    </a>
+                    <a href="https://linkedin.com/in/xpalsetia" class="contact-item" target="_blank" rel="noopener">
+                        <div class="contact-icon">💼</div>
+                        <h3>LinkedIn</h3>
+                        <p>linkedin.com/in/xpalsetia</p>
+                    </a>
+                    <a href="https://github.com/xpalsetia" class="contact-item" target="_blank" rel="noopener">
+                        <div class="contact-icon">💻</div>
+                        <h3>GitHub</h3>
+                        <p>github.com/xpalsetia</p>
+                    </a>
+                </div>
             </div>
         </div>
     </section>
@@ -198,9 +293,7 @@
     <div class="page-tabs">
         <a href="index.html" class="page-tab active" data-page="portfolio" title="Portfolio">🏠</a>
         <a href="gallery.html" class="page-tab" data-page="gallery" title="Gallery">📸</a>
-        <a href="blog.html" class="page-tab" data-page="blog" title="Blog">📝</a>
         <a href="resume.html" class="page-tab" data-page="resume" title="Resume">📄</a>
-        
     </div>
 
     <footer>
