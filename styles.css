@@ -228,6 +228,27 @@ nav {
   margin: 0 auto 2.5rem;
 }
 
+.hero p.hero-now {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 0.85rem; color: var(--text-2);
+  padding: 5px 14px 5px 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  margin: 0 auto 1.5rem;
+}
+.hero p.hero-now::before {
+  content: '';
+  width: 7px; height: 7px; border-radius: 50%;
+  background: #3fb950;
+  box-shadow: 0 0 0 3px rgba(63,185,80,0.18);
+  animation: now-pulse 2.4s ease-in-out infinite;
+}
+@keyframes now-pulse {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.35; }
+}
+
 .hero-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
 
 /* Hide old floating shapes */
@@ -407,10 +428,14 @@ section:nth-child(even) { background: transparent; }
 .t-green { background: #28c840; }
 .t-title { font-size: 0.78rem; color: #6e7681; margin-left: 0.5rem; }
 .terminal-body {
-  padding: 1.4rem 1.6rem; min-height: 220px;
+  padding: 1.4rem 1.6rem; min-height: 220px; max-height: 340px;
+  overflow-y: auto;
   font-size: 0.875rem; line-height: 1.9; color: #c9d1d9;
+  scrollbar-width: thin; scrollbar-color: #30363d transparent;
 }
-.t-line { display: block; }
+.terminal-body::-webkit-scrollbar { width: 6px; }
+.terminal-body::-webkit-scrollbar-thumb { background: #30363d; border-radius: 3px; }
+.t-line { display: block; white-space: pre-wrap; }
 .t-prompt { color: #57ab5a; }
 .t-cmd    { color: #79c0ff; }
 .t-key    { color: #e3b341; }
@@ -551,6 +576,55 @@ section:nth-child(even) { background: transparent; }
   border: 1px solid var(--border-accent);
 }
 .timeline-content p { font-size: 0.875rem; color: var(--text-2); line-height: 1.7; }
+
+/* Expandable timeline entries */
+.timeline-toggle {
+  position: relative;
+  padding-right: 2rem;
+  cursor: pointer;
+  border-radius: 8px;
+}
+.timeline-toggle:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+.timeline-chevron {
+  position: absolute; top: 4px; right: 0;
+  width: 9px; height: 9px;
+  border-right: 2px solid var(--accent);
+  border-bottom: 2px solid var(--accent);
+  transform: rotate(45deg);
+  transition: transform 0.25s ease;
+}
+.timeline-item.is-open .timeline-chevron { transform: rotate(-135deg); }
+
+.timeline-details {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.32s ease, opacity 0.25s ease;
+}
+.timeline-item.is-open .timeline-details {
+  max-height: 420px;
+  opacity: 1;
+}
+.timeline-details ul {
+  margin: 0.9rem 0 0;
+  padding-left: 1.1rem;
+  font-size: 0.875rem; color: var(--text-2); line-height: 1.7;
+}
+.timeline-details li { margin-bottom: 0.4rem; }
+.timeline-details li strong { color: var(--accent); }
+
+.timeline-tech { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.9rem; }
+.timeline-tech span {
+  font-size: 0.72rem; font-weight: 600;
+  padding: 3px 10px;
+  color: var(--text-2);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+}
 
 /* ============================================================
    PROJECTS — 3D TILT CARDS

@@ -40,7 +40,7 @@ if (document.getElementById('tw-word')) {
 
 // ---- Typewriter role rotator ----
 (function () {
-  const roles = ['Full-Stack Developer', 'ML Engineer', 'iOS Developer', 'Backend Engineer', 'Problem Solver'];
+  const roles = ['Full-Stack Developer', 'HPC Engineer', 'ML Engineer', 'Backend Engineer', 'Problem Solver'];
   let rIdx = 0, cIdx = 0, deleting = false;
   const el = document.getElementById('tw-word');
   if (!el) return;
@@ -58,7 +58,7 @@ if (document.getElementById('tw-word')) {
   tick();
 })();
 
-// ---- Terminal bio + interactive pong ----
+// ---- Terminal bio + xsh mini shell (commands, pong, matrix) ----
 (function () {
   const body = document.getElementById('terminal-body');
   if (!body) return;
@@ -66,9 +66,9 @@ if (document.getElementById('tw-word')) {
   const bioLines = [
     { prompt: true,  text: 'cat bio.txt' },
     { html: '<span class="t-key">Name  </span>  <span class="t-val">Xerxis Palsetia</span>' },
-    { html: '<span class="t-key">Role  </span>  <span class="t-val">Software Engineer @ Supermicro</span>' },
+    { html: '<span class="t-key">Role  </span>  <span class="t-val">Software Engineer L2 @ Supermicro</span>' },
     { html: '<span class="t-key">Edu   </span>  <span class="t-val">B.S. CS \u2014 UW-Madison \u00b7 GPA 3.6</span>' },
-    { html: '<span class="t-key">Stack </span>  <span class="t-val">Java \u00b7 Python \u00b7 React \u00b7 Swift \u00b7 Kotlin</span>' },
+    { html: '<span class="t-key">Stack </span>  <span class="t-val">Python \u00b7 FastAPI \u00b7 React \u00b7 MongoDB \u00b7 LangChain</span>' },
     { html: '<span class="t-key">Cloud </span>  <span class="t-val">AWS \u00b7 GCP \u00b7 Azure \u00b7 Docker \u00b7 K8s</span>' },
     { html: '<span class="t-comment"># Quick learner. Builder. Always shipping.</span>' },
     { blank: true },
@@ -81,6 +81,8 @@ if (document.getElementById('tw-word')) {
   let inputActive = false, inputText = '', inputCmdEl = null, inputCursorEl = null;
   let pongRunning = false, pongAF = null;
   const pongKeys = {};
+  const history = [];
+  let histIdx = 0;
 
   /* ---- BIO SEQUENCE ---- */
   function runBio() {
@@ -97,7 +99,7 @@ if (document.getElementById('tw-word')) {
       const hint = document.createElement('span');
       hint.className = 't-line t-comment';
       hint.style.marginTop = '4px';
-      hint.textContent = '# type anything and press enter\u2026';
+      hint.textContent = '# type `help` to see what this shell can do\u2026';
       body.appendChild(hint);
       setTimeout(enableInput, 350);
       return;
@@ -123,42 +125,288 @@ if (document.getElementById('tw-word')) {
     bioCursorEl.remove(); bioCh = 0; bioI++; setTimeout(bioStep, 320);
   }
 
+  /* ---- OUTPUT HELPERS ---- */
+  function print(html, cls) {
+    const line = document.createElement('span');
+    line.className = 't-line' + (cls ? ' ' + cls : '');
+    line.innerHTML = html === '' ? '&nbsp;' : html;
+    body.appendChild(line);
+    return line;
+  }
+  function esc(s) {
+    return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+  function kv(key, val) {
+    return '<span class="t-key">' + key.padEnd(10) + '</span><span class="t-val">' + val + '</span>';
+  }
+  function scrollDown() { body.scrollTop = body.scrollHeight; }
+
   /* ---- INPUT MODE ---- */
   function enableInput() {
-    inputActive = true; inputText = '';
+    inputActive = true; inputText = ''; histIdx = history.length;
     const row = document.createElement('span'); row.className = 't-line';
     row.innerHTML = '<span class="t-prompt">$ </span>';
     inputCmdEl = document.createElement('span'); inputCmdEl.className = 't-cmd';
     inputCursorEl = document.createElement('span'); inputCursorEl.className = 't-cursor-inline';
     row.appendChild(inputCmdEl); row.appendChild(inputCursorEl);
     body.appendChild(row);
+    scrollDown();
     document.addEventListener('keydown', handleTermInput);
   }
 
+  function endInput() {
+    inputActive = false;
+    document.removeEventListener('keydown', handleTermInput);
+    if (inputCursorEl) inputCursorEl.remove();
+  }
+
+  // Keystrokes only reach the shell while the terminal is actually on screen,
+  // so arrow keys still scroll the page everywhere else.
+  function termVisible() {
+    const win = body.closest('.terminal-window') || body;
+    const r = win.getBoundingClientRect();
+    return r.bottom > 0 && r.top < window.innerHeight;
+  }
+
   function handleTermInput(e) {
-    if (!inputActive) return;
+    if (!inputActive || !termVisible()) return;
     if (e.key === 'Enter') {
-      inputActive = false;
-      document.removeEventListener('keydown', handleTermInput);
-      if (inputCursorEl) inputCursorEl.remove();
-      setTimeout(startPong, 180);
+      const raw = inputText.trim();
+      endInput();
+      if (raw) { history.push(raw); histIdx = history.length; }
+      runCommand(raw);
     } else if (e.key === 'Backspace') {
       inputText = inputText.slice(0, -1);
       if (inputCmdEl) inputCmdEl.textContent = inputText;
       e.preventDefault();
+    } else if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+      if (!history.length) return;
+      e.preventDefault();
+      histIdx += e.key === 'ArrowUp' ? -1 : 1;
+      histIdx = Math.max(0, Math.min(history.length, histIdx));
+      inputText = histIdx === history.length ? '' : history[histIdx];
+      if (inputCmdEl) inputCmdEl.textContent = inputText;
+    } else if (e.key === 'Tab') {
+      e.preventDefault();
+      const matches = Object.keys(commands).filter(c => c.startsWith(inputText) && inputText);
+      if (matches.length === 1) {
+        inputText = matches[0];
+        if (inputCmdEl) inputCmdEl.textContent = inputText;
+      }
     } else if (e.key.length === 1 && !e.ctrlKey && !e.metaKey) {
       inputText += e.key;
       if (inputCmdEl) inputCmdEl.textContent = inputText;
     }
   }
 
-  /* ---- PONG ---- */
-  function startPong() {
-    const W = body.offsetWidth || 580;
+  /* ---- COMMANDS ---- */
+  function goTo(sel) {
+    const target = document.querySelector(sel);
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  const commands = {
+    help() {
+      print('<span class="t-comment">Available commands:</span>');
+      [
+        ['help',       'show this list'],
+        ['whoami',     'who is Xerxis'],
+        ['skills',     'languages, frameworks, tools'],
+        ['experience', 'where I have worked'],
+        ['projects',   'things I have built'],
+        ['contact',    'how to reach me'],
+        ['resume',     'open the full resume'],
+        ['neofetch',   'system info, portfolio edition'],
+        ['pong',       'play pong in this terminal'],
+        ['matrix',     'follow the white rabbit'],
+        ['history',    'previous commands'],
+        ['clear',      'clear the screen'],
+      ].forEach(([c, d]) => print('<span class="t-cmd">' + c.padEnd(12) + '</span><span class="t-val">' + d + '</span>'));
+      print('<span class="t-comment"># \u2191/\u2193 for history, Tab to complete</span>');
+    },
+    whoami() {
+      print(kv('name', 'Xerxis Palsetia'));
+      print(kv('role', 'Software Engineer L2 @ Supermicro'));
+      print(kv('focus', 'GPU cluster validation, full-stack platforms, AI tooling'));
+      print(kv('edu', 'B.S. Computer Science \u2014 UW-Madison, GPA 3.6'));
+      print(kv('orgs', 'Badger Blockchain (VP of Tech), Wisconsin Racing'));
+    },
+    skills() {
+      print(kv('languages', 'Python, Java, Swift, C, Kotlin, JS/TS, Bash, SQL, R'));
+      print(kv('backend', 'FastAPI, Flask, Node.js, Spring Boot'));
+      print(kv('frontend', 'React, React Native, iOS, Android'));
+      print(kv('data', 'MongoDB, Postgres, MySQL, Firebase'));
+      print(kv('ai', 'Ollama, LangChain, ChromaDB'));
+      print(kv('infra', 'Docker, Kubernetes, Ansible, Linux, AWS/GCP/Azure'));
+    },
+    experience() {
+      print('<span class="t-cmd">Supermicro</span> <span class="t-comment">\u2014 Software Engineer L2 \u00b7 Aug 2025 \u2013 Present</span>');
+      print('<span class="t-val">  Lead on Argus Cluster Monitor \u00b7 30x faster deployments \u00b7 50MW GB300 field validation</span>');
+      print('<span class="t-cmd">Cequence Security</span> <span class="t-comment">\u2014 Engineering Intern \u00b7 Jun \u2013 Sep 2023</span>');
+      print('<span class="t-val">  Discovery Feature (+30% efficiency) \u00b7 Spring Boot / Kotlin API \u00b7 80% coverage</span>');
+      print('<span class="t-cmd">Coding For Tomorrow</span> <span class="t-comment">\u2014 Founder / Instructor \u00b7 2020 \u2013 2022</span>');
+      print('<span class="t-val">  Taught Scratch, Python, and Java to younger students</span>');
+      print('<span class="t-comment"># scrolling to the experience section\u2026</span>');
+      goTo('#experience');
+    },
+    projects() {
+      print('<span class="t-cmd">argus</span>      <span class="t-val">GPU cluster validation platform (work)</span>');
+      print('<span class="t-cmd">unigpu</span>     <span class="t-val">Local GPU orchestration across NVIDIA + AMD</span>');
+      print('<span class="t-cmd">markov</span>     <span class="t-val">S&amp;P 500 prediction with k-order Markov chains</span>');
+      print('<span class="t-cmd">prem</span>       <span class="t-val">Premier League match outcome predictor</span>');
+      print('<span class="t-cmd">ridethebus</span> <span class="t-val">Browser card game</span>');
+      print('<span class="t-comment"># scrolling to the projects section\u2026</span>');
+      goTo('#projects');
+    },
+    contact() {
+      print(kv('email', 'xerxis.palsetia@gmail.com'));
+      print(kv('linkedin', 'linkedin.com/in/xpalsetia'));
+      print(kv('github', 'github.com/xpalsetia'));
+      goTo('#contact');
+    },
+    resume() {
+      print('<span class="t-comment"># opening resume\u2026</span>');
+      setTimeout(() => { window.location.href = 'resume.html'; }, 500);
+    },
+    neofetch() {
+      const art = [
+        '   __  __ ____  ',
+        '   \\ \\/ /|  _ \\ ',
+        '    \\  / | |_) |',
+        '    /  \\ |  __/ ',
+        '   /_/\\_\\|_|    ',
+      ];
+      const info = [
+        ['xerxis', '@portfolio'],
+        ['os', 'Portfolio OS 2.0'],
+        ['shell', 'xsh 1.0'],
+        ['uptime', 'shipping since 2020'],
+        ['role', 'SWE L2 @ Supermicro'],
+        ['langs', 'Python, Java, TS, Swift'],
+        ['games', 'run `pong`'],
+      ];
+      const rows = Math.max(art.length, info.length);
+      for (let i = 0; i < rows; i++) {
+        const a = '<span class="t-prompt">' + esc((art[i] || '').padEnd(17)) + '</span>';
+        const inf = info[i]
+          ? (i === 0
+              ? '<span class="t-cmd">' + info[i][0] + '</span><span class="t-val">' + info[i][1] + '</span>'
+              : '<span class="t-key">' + info[i][0].padEnd(8) + '</span><span class="t-val">' + info[i][1] + '</span>')
+          : '';
+        print(a + inf);
+      }
+    },
+    history() {
+      if (!history.length) { print('<span class="t-comment"># no history yet</span>'); return; }
+      history.forEach((h, i) => print('<span class="t-comment">' + String(i + 1).padStart(3) + '</span>  <span class="t-cmd">' + esc(h) + '</span>'));
+    },
+    clear() {
+      body.innerHTML = '';
+      return 'skip-prompt-reset';
+    },
+    pong() { startPong(); return 'takeover'; },
+    matrix() { startMatrix(); return 'takeover'; },
+  };
+
+  const aliases = { ls: 'help', '?': 'help', man: 'help', about: 'whoami', me: 'whoami',
+                    work: 'experience', jobs: 'experience', cv: 'resume', email: 'contact',
+                    stack: 'skills', cls: 'clear' };
+
+  function runCommand(raw) {
+    const name = raw.split(/\s+/)[0].toLowerCase();
+    if (!name) { enableInput(); return; }
+
+    if (name === 'sudo') {
+      print('<span class="t-comment">nice try \u2014 you are not in the sudoers file.</span>');
+      enableInput(); scrollDown(); return;
+    }
+    if (name === 'exit' || name === 'quit') {
+      print('<span class="t-comment"># there is no escape. try `help`.</span>');
+      enableInput(); scrollDown(); return;
+    }
+
+    const fn = commands[name] || commands[aliases[name]];
+    if (!fn) {
+      print('<span class="t-val">xsh: command not found: ' + esc(name) + '</span>');
+      print('<span class="t-comment"># type `help` for the list</span>');
+      enableInput(); scrollDown(); return;
+    }
+
+    const result = fn();
+    if (result === 'takeover') return;
+    enableInput();
+    scrollDown();
+  }
+
+  /* ---- MATRIX RAIN ---- */
+  function startMatrix() {
     const H = 240;
     body.innerHTML = '';
     body.style.padding = '0';
     body.style.minHeight = H + 'px';
+    const W = body.clientWidth || 580;
+
+    const canvas = document.createElement('canvas');
+    canvas.width = W; canvas.height = H;
+    canvas.style.display = 'block';
+    body.appendChild(canvas);
+    const ctx = canvas.getContext('2d');
+
+    const chars = 'アイウエオカキクケコｱｲｳ0123456789XPXERXIS'.split('');
+    const fontSize = 13;
+    const cols = Math.floor(W / fontSize);
+    const drops = new Array(cols).fill(0).map(() => Math.random() * -20);
+    let af = null, running = true;
+
+    function frame() {
+      if (!running) return;
+      ctx.fillStyle = 'rgba(13,17,23,0.12)';
+      ctx.fillRect(0, 0, W, H);
+      ctx.font = fontSize + 'px "Courier New",monospace';
+      for (let i = 0; i < cols; i++) {
+        const ch = chars[Math.floor(Math.random() * chars.length)];
+        const y = drops[i] * fontSize;
+        ctx.fillStyle = y > 0 && Math.random() > 0.94 ? '#aff5b4' : '#57ab5a';
+        ctx.fillText(ch, i * fontSize, y);
+        if (y > H && Math.random() > 0.975) drops[i] = 0;
+        drops[i]++;
+      }
+      af = requestAnimationFrame(frame);
+    }
+
+    function stop() {
+      running = false;
+      cancelAnimationFrame(af);
+      document.removeEventListener('keydown', onKey);
+      exitToShell('# back to xsh \u2014 type `help` for commands');
+    }
+    function onKey(e) {
+      if (e.key === 'q' || e.key === 'Q' || e.key === 'Escape' || e.key === 'Enter') stop();
+    }
+
+    ctx.fillStyle = '#0d1117';
+    ctx.fillRect(0, 0, W, H);
+    frame();
+    document.addEventListener('keydown', onKey);
+    setTimeout(() => { if (running) stop(); }, 7000);
+  }
+
+  /* ---- RETURN TO SHELL ---- */
+  function exitToShell(msg) {
+    body.innerHTML = '';
+    body.style.padding = '';
+    body.style.minHeight = '';
+    if (msg) print('<span class="t-comment">' + msg + '</span>');
+    enableInput();
+  }
+
+  /* ---- PONG ---- */
+  function startPong() {
+    const H = 240;
+    body.innerHTML = '';
+    body.style.padding = '0';
+    body.style.minHeight = H + 'px';
+    const W = body.clientWidth || 580;
 
     const canvas = document.createElement('canvas');
     canvas.width = W; canvas.height = H;
@@ -283,7 +531,7 @@ if (document.getElementById('tw-word')) {
         document.removeEventListener('keydown', onPongKey);
         document.removeEventListener('keyup',   onPongKey);
         for (const k in pongKeys) delete pongKeys[k];
-        runBio();
+        exitToShell('# back to xsh \u2014 type `help` for commands');
         return;
       }
       if (phase === 'intro') {
@@ -301,6 +549,19 @@ if (document.getElementById('tw-word')) {
 
   runBio();
 })();
+
+// ---- Expandable experience timeline ----
+document.querySelectorAll('.timeline-item.is-expandable .timeline-toggle').forEach(btn => {
+  const toggle = () => {
+    const item = btn.closest('.timeline-item');
+    const open = item.classList.toggle('is-open');
+    btn.setAttribute('aria-expanded', String(open));
+  };
+  btn.addEventListener('click', toggle);
+  btn.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
+  });
+});
 
 // ---- 3D tilt cards ----
 document.querySelectorAll('[data-tilt]').forEach(card => {
