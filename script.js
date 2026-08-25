@@ -67,7 +67,7 @@ if (document.getElementById('tw-word')) {
     { prompt: true,  text: 'cat bio.txt' },
     { html: '<span class="t-key">Name  </span>  <span class="t-val">Xerxis Palsetia</span>' },
     { html: '<span class="t-key">Role  </span>  <span class="t-val">Software Engineer L2 @ Supermicro</span>' },
-    { html: '<span class="t-key">Edu   </span>  <span class="t-val">B.S. CS \u2014 UW-Madison \u00b7 GPA 3.6</span>' },
+    { html: '<span class="t-key">Edu   </span>  <span class="t-val">B.S. CS @ UW-Madison \u00b7 GPA 3.6</span>' },
     { html: '<span class="t-key">Stack </span>  <span class="t-val">Python \u00b7 FastAPI \u00b7 React \u00b7 MongoDB \u00b7 LangChain</span>' },
     { html: '<span class="t-key">Cloud </span>  <span class="t-val">AWS \u00b7 GCP \u00b7 Azure \u00b7 Docker \u00b7 K8s</span>' },
     { html: '<span class="t-comment"># Quick learner. Builder. Always shipping.</span>' },
