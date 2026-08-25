@@ -227,7 +227,7 @@ if (document.getElementById('tw-word')) {
     whoami() {
       print(kv('name', 'Xerxis Palsetia'));
       print(kv('role', 'Software Engineer L2 @ Supermicro'));
-      print(kv('focus', 'GPU cluster validation, full-stack platforms, AI tooling'));
+      print(kv('focus', 'L12 cluster testing, L10 on-site appliances, GPU validation'));
       print(kv('edu', 'B.S. Computer Science \u2014 UW-Madison, GPA 3.6'));
       print(kv('orgs', 'Badger Blockchain (VP of Tech), Wisconsin Racing'));
     },
@@ -240,8 +240,10 @@ if (document.getElementById('tw-word')) {
       print(kv('infra', 'Docker, Kubernetes, Ansible, Linux, AWS/GCP/Azure'));
     },
     experience() {
-      print('<span class="t-cmd">Supermicro</span> <span class="t-comment">\u2014 Software Engineer L2 \u00b7 Aug 2025 \u2013 Present</span>');
-      print('<span class="t-val">  Lead on Argus Cluster Monitor \u00b7 30x faster deployments \u00b7 50MW GB300 field validation</span>');
+      print('<span class="t-cmd">Supermicro</span> <span class="t-comment">\u2014 Software Engineer L2 \u00b7 Aug 2026 \u2013 Present</span>');
+      print('<span class="t-val">  L12 cluster testing tool \u00b7 L10 on-site testing appliance to cut RMA timelines</span>');
+      print('<span class="t-cmd">Supermicro</span> <span class="t-comment">\u2014 Software Engineer \u00b7 Aug 2025 \u2013 Aug 2026</span>');
+      print('<span class="t-val">  Argus Cluster Monitor \u00b7 30x faster deployments \u00b7 50MW GB300 field validation</span>');
       print('<span class="t-cmd">Cequence Security</span> <span class="t-comment">\u2014 Engineering Intern \u00b7 Jun \u2013 Sep 2023</span>');
       print('<span class="t-val">  Discovery Feature (+30% efficiency) \u00b7 Spring Boot / Kotlin API \u00b7 80% coverage</span>');
       print('<span class="t-cmd">Coding For Tomorrow</span> <span class="t-comment">\u2014 Founder / Instructor \u00b7 2020 \u2013 2022</span>');
